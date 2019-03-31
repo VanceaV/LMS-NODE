@@ -12,7 +12,7 @@ exports.addAuthor = function(author, cb){
   db.beginTransaction(function(err){
       if(err) cb(err, null);
   
-      db.query('insert into tbl_author (author_name) values (?)',author.authorName, function(err, res){
+      db.query('insert into tbl_author (author_name) values (?)',[author.author_name], function(err, res){
         if(err){
           db.rollback(function(err, res){
             cb(err, res);
@@ -29,7 +29,7 @@ exports.updateAuthor = function(author, cb){
   db.beginTransaction(function(err){
       if(err) cb(err, null);
   
-      db.query('update tbl_author set author_name=? where author_id=?',[author.authorName,author.authorId], function(err, res){
+      db.query('update tbl_author set author_name=? where author_id=?',[author.author_name,author.author_id], function(err, res){
         if(err){
           db.rollback(function(err, res){
             cb(err, res);
@@ -43,11 +43,11 @@ exports.updateAuthor = function(author, cb){
 };
 
 
-exports.removeAuthor = function(authorId, cb){
+exports.removeAuthor = function(author_id, cb){
   db.beginTransaction(function(err){
       if(err) cb(err, null);
   
-      db.query('delete from tbl_author where author_id = ?', [authorId], function(err, res){
+      db.query('delete from tbl_author where author_id = ?', [author_id], function(err, res){
         if(err){
           db.rollback(function(err, res){
             cb(err, res);
@@ -59,5 +59,12 @@ exports.removeAuthor = function(authorId, cb){
       });
     });
   }
+
+  exports.getAuthorById = function(author_id, cb){
+    
+        db.query('select * from tbl_author where author_id = ?', [author_id], function(err, result,fields){
+          cb(err, result,fields);
+        });
+    }
 
 

@@ -49,4 +49,15 @@ routes.delete('/book/:id', function(req, res){
 });
 
 
+routes.get('/book/:id', function(req, res){
+  bookDao.getAuthorById(req.params.id, function(err, result){
+    if(err){
+      res.status(400);
+      res.send('Delete Book Failed!');
+    }
+    res.setHeader('Content-Type', 'application/json');
+    res.send(result);
+  });
+});
+
 module.exports = routes;
